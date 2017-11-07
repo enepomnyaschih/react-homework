@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import {Grid} from 'react-bootstrap';
 import TaskModel from './models/Task';
 import AddForm from './AddForm';
 import FilterForm from './FilterForm';
 import TaskList from './TaskList';
-import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: props.defaultTasks || [],
+      tasks: (props.defaultTasks || []).sort(TaskModel.compare),
       filter: ''
     };
     this.handleFilter = this.handleFilter.bind(this);
@@ -21,11 +21,11 @@ class App extends Component {
   render() {
     const {tasks, filter} = this.state;
     return (
-      <div className="App">
+      <Grid>
         <FilterForm filter={filter} onFilter={this.handleFilter}/>
         <TaskList tasks={tasks} filter={filter} onRemove={this.handleRemove}/>
         <AddForm onAdd={this.handleAdd}/>
-      </div>
+      </Grid>
     );
   }
 

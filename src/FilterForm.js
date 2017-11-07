@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import {Form, FormControl, FormGroup, Panel} from 'react-bootstrap';
 
 class FilterForm extends Component {
   constructor(props) {
@@ -10,9 +11,13 @@ class FilterForm extends Component {
   render() {
     var {filter} = this.props;
     return (
-      <form>
-        <input type="text" value={filter} onChange={this.handleChange}/>
-      </form>
+      <Panel header="Filter">
+        <Form>
+          <FormGroup controlId="filter">
+            <FormControl type="text" value={filter} onChange={this.handleChange}/>
+          </FormGroup>
+        </Form>
+      </Panel>
     );
   }
 

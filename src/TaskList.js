@@ -1,16 +1,22 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import {Button, Glyphicon, ListGroup, ListGroupItem} from 'react-bootstrap';
 import TaskModel from './models/Task';
 
 class TaskList extends Component {
   render() {
     const {tasks, filter, onRemove} = this.props;
     return (
-      <ul>
+      <ListGroup>
         {tasks.filter((task) => task.name.indexOf(filter) !== -1).map((task) => (
-          <li key={task.id}><i className="fa fa-close" onClick={() => onRemove(task)}/> {task.name} - {task.duration} seconds</li>
+          <ListGroupItem key={task.id}>
+            <Button bsStyle="danger" onClick={() => onRemove(task.id)}>
+              <Glyphicon glyph="remove"/>
+            </Button>
+            {' '}<b>{task.name}</b> - {task.duration} seconds
+          </ListGroupItem>
         ))}
-      </ul>
+      </ListGroup>
     );
   }
 }

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import {Button, ControlLabel, Form, FormControl, FormGroup, Panel} from 'react-bootstrap';
 import TaskModel from './models/Task';
 
 class AddForm extends Component {
@@ -14,30 +15,38 @@ class AddForm extends Component {
   }
 
   render() {
-    const {name, duration} = this.state;
+    const {name, duration} = this.state,
+      nameValid = !!name,
+      durationValid = duration && !isNaN(+duration) && (+duration >= 0);
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" name="name" value={name} onChange={this.handleChange}/>
-        <input type="text" name="duration" value={duration} onChange={this.handleChange}/>
-        <input type="submit"/>
-      </form>
+      <Panel header="Add new">
+        <Form onSubmit={this.handleSubmit}>
+          <FormGroup controlId="name" validationState={nameValid ? 'success' : 'error'}>
+            <ControlLabel>Name</ControlLabel>
+            <FormControl type="text" value={name} onChange={this.handleChange}/>
+          </FormGroup>
+          <FormGroup controlId="duration" validationState={durationValid ? 'success' : 'error'}>
+            <ControlLabel>Duration (seconds)</ControlLabel>
+            <FormControl type="text" value={duration} onChange={this.handleChange}/>
+          </FormGroup>
+          <Button type="submit" disabled={!nameValid || !durationValid}>Add</Button>
+        </Form>
+      </Panel>
     );
   }
 
   handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+    this.setState({[e.target.id]: e.target.value});
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    let {name, duration} = this.state;
-    if (duration && !isNaN(+duration)) {
-      this.props.onAdd(TaskModel.create({name, duration: +duration}));
-      this.setState({
-        name: '',
-        duration: ''
-      });
-    }
+    const {name, duration} = this.state;
+    this.props.onAdd(TaskModel.create({name, duration: +duration}));
+    this.setState({
+      name: '',
+      duration: ''
+    });
   }
 }
 
