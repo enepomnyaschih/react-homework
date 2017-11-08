@@ -10,7 +10,7 @@ export default {
     duration: PropTypes.number.isRequired
   }),
   compare: (x, y) => compare(x.duration, y.duration),
-  create: (props) => ({
+  create: props => ({
     ...props,
     id: props.id || ++id
   })

@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import TaskModel from './models/Task';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import App from './components/App';
+import reducer from './rootReducer'
 import registerServiceWorker from './registerServiceWorker';
+import './index.css';
 
-const tasks = [
-  {name: 'Task 1', duration: 10},
-  {name: 'Task 2', duration: 20},
-  {name: 'Task 3', duration: 25}
-].map(TaskModel.create);
+const store = createStore(reducer);
 
-ReactDOM.render(<App defaultTasks={tasks}/>, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}><App/></Provider>, document.getElementById('root'));
+
 registerServiceWorker();
